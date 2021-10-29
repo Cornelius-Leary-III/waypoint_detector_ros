@@ -14,7 +14,12 @@
 #include <opencv4/opencv2/imgproc.hpp>
 #include <opencv4/opencv2/video.hpp>
 
-const int gIndexExpectedImageFileName = 1;
+const int gMaxNumArgsAllowedforImageFileName = 2;
+const int gIndexExpectedImageFileName        = 1;
+
+const int gMinNumArgsNeededForVideoDeviceID = 3;
+const int gIndexExpectedVideoDeviceFlag     = 1;
+const int gIndexExpectedVideoDeviceID       = 2;
 
 const int gAsciiCharQuitLowerQ  = 113;
 const int gAsciiCharQuitUpperQ  = 81;
@@ -31,13 +36,13 @@ int main(int argc, char** argv)
 
    cv::VideoCapture video_capture;
 
-   if (argc < 2)
+   if (argc < gMaxNumArgsAllowedforImageFileName)
    {
       // not enough input arguments.
       // throw exception?
       return -1;
    }
-   else if (argc == 2)
+   else if (argc == gMaxNumArgsAllowedforImageFileName)
    {
       video_file_name = argv[gIndexExpectedImageFileName];
 
@@ -50,14 +55,14 @@ int main(int argc, char** argv)
 
       video_capture.open(video_file_name, cv::CAP_ANY);
    }
-   else if (argc >= 3)
+   else if (argc >= gMinNumArgsNeededForVideoDeviceID)
    {
-      std::string input_arg(argv[1]);
+      std::string input_arg(argv[gIndexExpectedVideoDeviceFlag]);
       std::string id_option("--id");
 
       if (input_arg == id_option)
       {
-         std::string video_index_text = argv[2];
+         std::string video_index_text = argv[gIndexExpectedVideoDeviceID];
 
          int video_index = std::stoi(video_index_text);
 
