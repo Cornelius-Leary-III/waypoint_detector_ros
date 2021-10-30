@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+   <arg unless="$(arg debug)" name="launch-prefix" value=" "/>
+   <arg if="$(arg debug)" name="launch-prefix" value="gdb -ex run --args"/>
+
+   <node name="tennis_ball_detector"
+         pkg="waypoint_detector"
+         type="waypoint_detector_node"
+         args="$(arg launch-prefix)"/>
+
+</launch>

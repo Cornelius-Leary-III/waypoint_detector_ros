@@ -1,25 +1,21 @@
 // file: tennis_ball_detector.h
 //
-// date:   10/29/21
+// date:   10/30/21
 // author: Cornelius Leary
 //
 // https://docs.opencv.org/4.5.2/d4/d70/tutorial_hough_circle.html
+//
 
 // C++ STL library includes
 #include <string>
-
-// Qt5 library includes
-#include <QObject>
 
 // OpenCV library includes
 #include <opencv4/opencv2/imgcodecs.hpp>
 #include <opencv4/opencv2/highgui.hpp>
 #include <opencv4/opencv2/imgproc.hpp>
 
-class TennisBallDetector : public QObject
+class TennisBallDetector
 {
-   Q_OBJECT
-
 public:
    TennisBallDetector();
    ~TennisBallDetector();
@@ -27,13 +23,9 @@ public:
    void detectCircles(cv::Mat input_image);
    bool haveParamsChanged();
 
+   cv::Mat getAnnotatedImage();
+
    static bool s_needToProcessImageParamChanged;
-
-signals:
-   //   void paramChanged();
-
-public slots:
-   //   void onParamChanged();
 
 private:
    void processInputImage(cv::Mat input_image);

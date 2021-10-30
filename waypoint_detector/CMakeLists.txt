@@ -2,17 +2,19 @@ cmake_minimum_required(VERSION 3.0.2)
 project(waypoint_detector)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  image_transport
   roscpp
   rospy
   std_msgs
-  vision_opencv
+  sensor_msgs
+  cv_bridge
+  image_geometry
+  image_transport
 )
 
 ## System dependencies are found with CMake's conventions
@@ -107,7 +109,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES waypoint_detector
-#  CATKIN_DEPENDS image_transport roscpp rospy std_msgs vision_opencv
+#  CATKIN_DEPENDS image_transport roscpp rospy std_msgs cv_bridge image_geometry sensor_msgs
 #  DEPENDS system_lib
 )
 
@@ -118,8 +120,23 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
+)
+
+add_executable(waypoint_detector_node
+  src/tennis_ball_detector.cpp
+  src/tennis_ball_detector_node.cpp
+  src/tennis_ball_detector_node_main.cpp
+)
+
+add_dependencies(waypoint_detector_node
+#  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(waypoint_detector_node
+  ${catkin_LIBRARIES}
 )
 
 ## Declare a C++ library
