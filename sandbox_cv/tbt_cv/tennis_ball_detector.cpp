@@ -16,8 +16,8 @@ const int gCircleIndexRadius = 2;
 const double gDefaultInvAccumulatorDpParam = 1;
 const double gDefaultHoughMethodParam1     = 100;
 const double gDefaultHoughMethodParam2     = 20;
-const int    gDefaultCircleRadiusMin       = 60;
-const int    gDefaultCircleRadiusMax       = 200;
+const int    gDefaultCircleRadiusMin       = 0;
+const int    gDefaultCircleRadiusMax       = 1000;
 const int    gDefaultCircleCenterPointSize = 1;
 const int    gDefaultCircleLineThickness   = 3;
 
@@ -27,10 +27,10 @@ const int gDefaultElementSize        = 3;
 const int gDefaultHueLow  = 34;
 const int gDefaultHueHigh = 53;
 
-const int gDefaultSaturationLow  = 112;
-const int gDefaultSaturationHigh = 227;
+const int gDefaultSaturationLow  = 68;
+const int gDefaultSaturationHigh = 255;
 
-const int gDefaultValueLow  = 21;
+const int gDefaultValueLow  = 0;
 const int gDefaultValueHigh = 255;
 
 static const cv::Scalar gColorBGRCenterPoint(0, 100, 100);
