@@ -23,7 +23,8 @@ public:
    void detectCircles(cv::Mat input_image);
    bool haveParamsChanged();
 
-   cv::Mat getAnnotatedImage();
+   cv::Mat                getAnnotatedImage();
+   std::vector<cv::Vec3f> getDetectedCircles();
 
    static bool s_needToProcessImageParamChanged;
 

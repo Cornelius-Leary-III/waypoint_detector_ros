@@ -160,6 +160,12 @@ cv::Mat TennisBallDetector::getAnnotatedImage()
 }
 
 //-----
+std::vector<cv::Vec3f> TennisBallDetector::getDetectedCircles()
+{
+   return mDetectedCirclesCurrent;
+}
+
+//-----
 bool TennisBallDetector::haveParamsChanged()
 {
    return s_needToProcessImageParamChanged;

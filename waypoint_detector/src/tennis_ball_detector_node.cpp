@@ -10,11 +10,14 @@
 
 //-----
 TennisBallDetectorNode::TennisBallDetectorNode(ros::NodeHandle* node_handle)
-  : mNodeHandle(node_handle),
+  : mNodeHandle(*node_handle),
     mImageTransport(*node_handle),
     mImageSubscriber(),
     mImagePublisher(),
-    mDetector()
+    mDetector(),
+    mCurrentWaypointDetectorMsg(),
+    mWaypointDetectorPublisher(),
+    mCurrentDetectedCircles()
 {
    // set up subscriber object to read images from the onboard camera sensor.
    mImageSubscriber = mImageTransport.subscribe("/realsense/color/image_raw",
@@ -24,6 +27,11 @@ TennisBallDetectorNode::TennisBallDetectorNode(ros::NodeHandle* node_handle)
 
    // set up publisher object to publish converted image types that are OpenCV-friendly.
    mImagePublisher = mImageTransport.advertise("/image_converter/output_video", 1);
+
+   // set up publisher object to publish the current waypoint detector messages.
+   mWaypointDetectorPublisher = mNodeHandle.advertise<waypoint_detector_msgs::WaypointDetector>(
+         "/waypoint_detector/image_data",
+         1);
 }
 
 //-----
@@ -92,4 +100,36 @@ void TennisBallDetectorNode::imageCallback(const sensor_msgs::ImageConstPtr& ima
       // then publish the ROS-friendly image.
       mImagePublisher.publish(result.toImageMsg());
    }
+
+   mCurrentDetectedCircles = mDetector.getDetectedCircles();
+
+   //   if (mCurrentDetectedCircles.empty())
+   //   {
+   //      return;
+   //   }
+
+   // reset current waypoint message.
+   mCurrentWaypointDetectorMsg = waypoint_detector_msgs::WaypointDetector();
+
+   // set up the header object field within the waypoint detector data structure.
+   mCurrentWaypointDetectorMsg.header.frame_id = result.header.frame_id;
+   mCurrentWaypointDetectorMsg.header.seq      = result.header.seq;
+   mCurrentWaypointDetectorMsg.header.stamp    = ros::Time::now();
+
+   size_t num_waypoints                               = mCurrentDetectedCircles.size();
+   mCurrentWaypointDetectorMsg.num_waypoints_detected = num_waypoints;
+
+   for (int index = 0; index < num_waypoints; index++)
+   {
+      // store the current waypoint's location within the image frame.
+      cv::Vec3i waypoint = mCurrentDetectedCircles[index];
+
+      // add the current waypoint's location within the image frame to the message.
+      mCurrentWaypointDetectorMsg.x_coords.push_back(waypoint[0]);
+      mCurrentWaypointDetectorMsg.y_coords.push_back(waypoint[1]);
+      mCurrentWaypointDetectorMsg.radii.push_back(waypoint[2]);
+   }
+
+   // publish the current waypoint detector msg.
+   mWaypointDetectorPublisher.publish(mCurrentWaypointDetectorMsg);
 }

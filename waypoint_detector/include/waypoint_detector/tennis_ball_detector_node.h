@@ -16,6 +16,8 @@
 #include "waypoint_detector/tennis_ball_detector.h"
 #include "waypoint_detector_msgs/WaypointDetector.h"
 
+#include <vector>
+
 class TennisBallDetectorNode
 {
 public:
@@ -25,13 +27,17 @@ public:
    void imageCallback(const sensor_msgs::ImageConstPtr& image_msg);
 
 private:
-   ros::NodeHandle* mNodeHandle;
+   ros::NodeHandle mNodeHandle;
 
    image_transport::ImageTransport mImageTransport;
    image_transport::Subscriber     mImageSubscriber;
    image_transport::Publisher      mImagePublisher;
 
    TennisBallDetector mDetector;
+
+   waypoint_detector_msgs::WaypointDetector mCurrentWaypointDetectorMsg;
+   ros::Publisher                           mWaypointDetectorPublisher;
+   std::vector<cv::Vec3f>                   mCurrentDetectedCircles;
 };
 
 #endif // TENNIS_BALL_DETECTOR_NODE_H
