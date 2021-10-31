@@ -1,4 +1,4 @@
-// file: main.cpp
+// file: tennis_ball_detector_node_main.cpp
 //
 // date:   10/29/21
 // author: Cornelius Leary

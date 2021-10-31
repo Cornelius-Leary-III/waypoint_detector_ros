@@ -140,6 +140,20 @@ target_link_libraries(waypoint_detector_node
   ${catkin_LIBRARIES}
 )
 
+add_executable(distance_reporter_node
+  src/distance_reporter_node.cpp
+  src/distance_reporter_node_main.cpp
+)
+
+add_dependencies(distance_reporter_node
+#  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(distance_reporter_node
+  ${catkin_LIBRARIES}
+)
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/waypoint_detector.cpp
