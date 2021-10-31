@@ -14,6 +14,7 @@
 #include <image_transport/image_transport.h>
 
 #include "waypoint_detector/tennis_ball_detector.h"
+#include "waypoint_detector_msgs/WaypointDetector.h"
 
 class TennisBallDetectorNode
 {

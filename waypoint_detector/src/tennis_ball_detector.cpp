@@ -17,8 +17,8 @@ const int gCircleIndexRadius = 2;
 const double gDefaultInvAccumulatorDpParam = 1;
 const double gDefaultHoughMethodParam1     = 100;
 const double gDefaultHoughMethodParam2     = 20;
-const int    gDefaultCircleRadiusMin       = 60;
-const int    gDefaultCircleRadiusMax       = 200;
+const int    gDefaultCircleRadiusMin       = 0;
+const int    gDefaultCircleRadiusMax       = 1000;
 const int    gDefaultCircleCenterPointSize = 1;
 const int    gDefaultCircleLineThickness   = 3;
 
@@ -28,10 +28,10 @@ const int gDefaultElementSize        = 3;
 const int gDefaultHueLow  = 34;
 const int gDefaultHueHigh = 53;
 
-const int gDefaultSaturationLow  = 112;
-const int gDefaultSaturationHigh = 227;
+const int gDefaultSaturationLow  = 68;
+const int gDefaultSaturationHigh = 255;
 
-const int gDefaultValueLow  = 21;
+const int gDefaultValueLow  = 0;
 const int gDefaultValueHigh = 255;
 
 static const cv::Scalar gColorBGRCenterPoint(0, 100, 100);
@@ -39,8 +39,8 @@ static const cv::Scalar gColorBGRCircleOutline(255, 0, 255);
 
 const int gWaitForKeyPressDuration = 0;
 
-static const std::string gWindowNameDetected("detected circles");
-static const std::string gWindowNameThresh("thresholded image");
+// static const std::string gWindowNameDetected("detected circles");
+// static const std::string gWindowNameThresh("thresholded image");
 
 bool TennisBallDetector::s_needToProcessImageParamChanged = true;
 
@@ -71,7 +71,7 @@ TennisBallDetector::TennisBallDetector()
     mParamMinDistDenominator(gDefaultMinDistDenominator),
     mParamElementRectSize(gDefaultElementSize)
 {
-   // Create a window
+   //   // Create a window
    //   cv::namedWindow(gWindowNameDetected, 1);
    //   cv::namedWindow(gWindowNameThresh, 1);
 
@@ -203,11 +203,11 @@ void TennisBallDetector::detectCircles(cv::Mat input_image)
    // annotate the original image with the detected circles.
    drawDetectedCircles(mImageFrameOriginal);
 
-   // display the annotated original image.
+   //   // display the annotated original image.
    //   cv::imshow(gWindowNameDetected, mImageFrameOriginal);
    //   cv::imshow(gWindowNameThresh, mImageFrameHSVThresholded);
 
-   //   // wait for the user to press any key to exit the display GUI.
+   // wait for the user to press any key to exit the display GUI.
    //   cv::waitKey(gWaitForKeyPressDuration);
 }
 
