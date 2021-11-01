@@ -11,26 +11,47 @@
 
 #include <vector>
 
+#include <cv_bridge/cv_bridge.h>
+#include <image_transport/image_transport.h>
+#include <image_transport/subscriber_filter.h>
+#include <sensor_msgs/Image.h>
+
+#include <message_filters/subscriber.h>
+#include <message_filters/time_synchronizer.h>
+#include <message_filters/sync_policies/approximate_time.h>
+
+#include <waypoint_detector_msgs/WaypointDetector.h>
+#include <waypoint_detector_msgs/WaypointDistanceReport.h>
+
+typedef message_filters::sync_policies::ApproximateTime<waypoint_detector_msgs::WaypointDetector,
+                                                        sensor_msgs::Image>
+      approx_time_sync_policy;
+
 class DistanceReporterNode
 {
 public:
    DistanceReporterNode(ros::NodeHandle* node_handle);
    ~DistanceReporterNode();
 
-   //   void imageCallback(const sensor_msgs::ImageConstPtr& image_msg);
+   void onSynchronizedCallback(
+         const waypoint_detector_msgs::WaypointDetectorConstPtr& detected_waypoint_msg,
+         const sensor_msgs::ImageConstPtr&                       image_msg);
 
 private:
-   ros::NodeHandle mNodeHandle;
+   ros::NodeHandle                 mNodeHandle;
+   image_transport::ImageTransport mImageTransport;
 
-   //   image_transport::ImageTransport mImageTransport;
-   //   image_transport::Subscriber     mImageSubscriber;
-   //   image_transport::Publisher      mImagePublisher;
+   waypoint_detector_msgs::WaypointDetector mCurrentWaypointImageData;
+   message_filters::Subscriber<waypoint_detector_msgs::WaypointDetector>*
+         mWaypointImageDataSubscriber;
 
-   //   TennisBallDetector mDetector;
+   sensor_msgs::Image                               mCurrentDepthCameraDepthImage;
+   message_filters::Subscriber<sensor_msgs::Image>* mDepthCameraDepthImageSubscriber;
 
-   //   waypoint_detector_msgs::WaypointDetector mCurrentWaypointDetectorMsg;
-   //   ros::Publisher                           mWaypointDetectorPublisher;
-   //   std::vector<cv::Vec3f>                   mCurrentDetectedCircles;
+   message_filters::Synchronizer<approx_time_sync_policy>* mTimeSync;
+
+   waypoint_detector_msgs::WaypointDistanceReport mCurrentWaypointDistanceReport;
+   ros::Publisher                                 mWaypointDistanceReportPublisher;
 };
 
 #endif // DISTANCE_REPORTER_H

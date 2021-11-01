@@ -15,6 +15,7 @@
 
 #include "waypoint_detector/tennis_ball_detector.h"
 #include "waypoint_detector_msgs/WaypointDetector.h"
+#include "waypoint_detector_msgs/WaypointDistanceReport.h"
 
 #include <vector>
 
@@ -30,14 +31,20 @@ private:
    ros::NodeHandle mNodeHandle;
 
    image_transport::ImageTransport mImageTransport;
-   image_transport::Subscriber     mImageSubscriber;
+   image_transport::Subscriber     mDepthCameraColorImageSubscriber;
    image_transport::Publisher      mImagePublisher;
 
    TennisBallDetector mDetector;
 
+   image_transport::Subscriber mDepthCameraDepthImageSubscriber;
+   sensor_msgs::Image          mCurrentDepthCameraDepthImage;
+
    waypoint_detector_msgs::WaypointDetector mCurrentWaypointDetectorMsg;
    ros::Publisher                           mWaypointDetectorPublisher;
    std::vector<cv::Vec3f>                   mCurrentDetectedCircles;
+
+   waypoint_detector_msgs::WaypointDistanceReport mCurrentWaypointDistanceReport;
+   ros::Publisher                                 mWaypointDistanceReportPublisher;
 };
 
 #endif // TENNIS_BALL_DETECTOR_NODE_H

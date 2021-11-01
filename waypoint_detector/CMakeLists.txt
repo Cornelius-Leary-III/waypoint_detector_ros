@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   image_geometry
   image_transport
   waypoint_detector_msgs
+  message_filters
 )
 
 ## System dependencies are found with CMake's conventions
@@ -110,7 +111,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES waypoint_detector
-#  CATKIN_DEPENDS image_transport roscpp rospy std_msgs cv_bridge image_geometry sensor_msgs waypoint_detector_msgs
+#  CATKIN_DEPENDS image_transport roscpp rospy std_msgs cv_bridge image_geometry sensor_msgs waypoint_detector_msgs message_filters
 #  DEPENDS system_lib
 )
 

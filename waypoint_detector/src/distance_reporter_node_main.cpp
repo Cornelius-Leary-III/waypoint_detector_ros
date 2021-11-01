@@ -12,7 +12,7 @@ int main(int argc, char** argv)
    ros::init(argc, argv, "distance_reporter_node");
    ros::NodeHandle node_handle;
 
-   //   TennisBallDetectorNode tennis_ball_detector_node(&node_handle);
+   DistanceReporterNode distance_reporter_node(&node_handle);
 
    ros::spin();
 

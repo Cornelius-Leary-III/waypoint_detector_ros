@@ -12,7 +12,7 @@
 TennisBallDetectorNode::TennisBallDetectorNode(ros::NodeHandle* node_handle)
   : mNodeHandle(*node_handle),
     mImageTransport(*node_handle),
-    mImageSubscriber(),
+    mDepthCameraColorImageSubscriber(),
     mImagePublisher(),
     mDetector(),
     mCurrentWaypointDetectorMsg(),
@@ -20,13 +20,13 @@ TennisBallDetectorNode::TennisBallDetectorNode(ros::NodeHandle* node_handle)
     mCurrentDetectedCircles()
 {
    // set up subscriber object to read images from the onboard camera sensor.
-   mImageSubscriber = mImageTransport.subscribe("/realsense/color/image_raw",
+   mDepthCameraColorImageSubscriber = mImageTransport.subscribe("/realsense/color/image_raw",
                                                 1,
                                                 &TennisBallDetectorNode::imageCallback,
                                                 this);
 
    // set up publisher object to publish converted image types that are OpenCV-friendly.
-   mImagePublisher = mImageTransport.advertise("/image_converter/output_video", 1);
+   mImagePublisher = mImageTransport.advertise("/waypoint_detector/output_video", 1);
 
    // set up publisher object to publish the current waypoint detector messages.
    mWaypointDetectorPublisher = mNodeHandle.advertise<waypoint_detector_msgs::WaypointDetector>(
